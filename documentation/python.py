@@ -1105,7 +1105,7 @@ def parse_pybind_type(state: State, referrer_path: List[str], signature: str) ->
     signature = signature[i:]
     return signature, type, type_relative, type_link
 
-# Returns function name, summary, list of arguments (name, type, type with HTML
+# Returns function name, docstring, list of arguments (name, type, type with HTML
 # links, default value) and return type. If argument parsing failed, the
 # argument list is a single "ellipsis" item.
 def parse_pybind_signature(state: State, referrer_path: List[str], signature: str) -> Tuple[str, str, List[Tuple[str, str, str, str, str]], str, str, str]:
@@ -1700,7 +1700,7 @@ def extract_function_doc(state: State, parent, entry: Empty) -> List[Any]:
         # already, so check that we have that consistent
         assert (len(funcs) > 1) == (entry.type == EntryType.OVERLOADED_FUNCTION)
         overloads = []
-        for name, summary, args, type, type_relative, type_link in funcs:
+        for name, docstring, args, type, type_relative, type_link in funcs:
             out = Empty()
             out.name = name
             out.params = []
@@ -1840,7 +1840,7 @@ def extract_function_doc(state: State, parent, entry: Empty) -> List[Any]:
 
             # Get summary and details. Passing the signature as well, so
             # different overloads can (but don't need to) have different docs.
-            out.summary, out.content = extract_docs(state, state.function_docs, entry.type, entry.path, summary, signature='({})'.format(', '.join(signature)))
+            out.summary, out.content = extract_docs(state, state.function_docs, entry.type, entry.path, docstring, signature='({})'.format(', '.join(signature)))
             if out.content: out.has_details = True
 
             # Call all scope exit hooks for this particular overload
