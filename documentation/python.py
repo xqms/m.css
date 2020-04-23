@@ -951,7 +951,7 @@ def add_module_dependency_for(state: State, object: Union[Any, str]):
 
 _pybind_name_rx = re.compile('[a-zA-Z0-9_]*')
 _pybind_arg_name_rx = re.compile('[/*a-zA-Z0-9_]+')
-_pybind_type_rx = re.compile('[a-zA-Z0-9_.]+')
+_pybind_type_rx = re.compile('[a-zA-Z0-9_.:]+')
 
 def _pybind11_extract_default_argument(string):
     """Consumes a balanced []()-expression at begin of input string until `,`
