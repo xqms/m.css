@@ -837,12 +837,26 @@ def parse_pybind_signature(state: State, referrer_path: List[str], signature: st
                 arg_type_link = None
 
             # Default (optional) -- for now take everything until the next comma
+            # but respect parentheses
             # TODO: ugh, do properly
             # The equals has spaces around since 2.3.0, preserve 2.2 compatibility.
             # https://github.com/pybind/pybind11/commit/0826b3c10607c8d96e1d89dc819c33af3799a7b8
             if signature.startswith(('=', ' = ')):
                 signature = signature[1 if signature[0] == '=' else 3:]
-                default = _pybind_default_value_rx.match(signature).group(0)
+
+                in_parens = 0
+                default = ''
+                for i in range(len(signature)):
+                    if in_parens == 0 and signature[i] == ',':
+                        break
+                    if signature[i] == '(':
+                        in_parens += 1
+                    if signature[i] == ')':
+                        if in_parens == 0:
+                            break
+                        in_parens -= 1
+
+                default = signature[:i]
                 signature = signature[len(default):]
             else:
                 default = None
