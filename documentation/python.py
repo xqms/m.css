@@ -1050,7 +1050,12 @@ def extract_docs(state: State, external_docs, type: EntryType, path: List[str], 
     if summary_only: return summary
 
     try:
-        content = render_rst(state, external_doc_entry['content'])
+        # Prepend a dummy document title. If we don't do that and content starts
+        # with a section header, it will be interpreted as the document header
+        # and will not end up in the output.
+
+        content_with_doc_header = 'DUMMY\n`````\nDUMMY\n:::::\n\n' + external_doc_entry['content']
+        content = render_rst(state, content_with_doc_header)
     except docutils.utils.SystemMessage:
         logging.error("Failed to process content for %s, ignoring:\n%s", path_signature_str, prettify_multiline_error(external_doc_entry['content']))
         content = ''
