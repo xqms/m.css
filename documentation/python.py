@@ -759,7 +759,7 @@ def make_name_link(state: State, referrer_path: List[str], name) -> str:
 
 _pybind_name_rx = re.compile('[a-zA-Z0-9_]*')
 _pybind_arg_name_rx = re.compile('[*a-zA-Z0-9_]+')
-_pybind_type_rx = re.compile('[a-zA-Z0-9_.]+')
+_pybind_type_rx = re.compile('[a-zA-Z0-9_.:]+')
 _pybind_default_value_rx = re.compile('[^,)]+')
 
 def parse_pybind_type(state: State, referrer_path: List[str], signature: str) -> str:
