@@ -783,7 +783,7 @@ def make_name_link(state: State, referrer_path: List[str], name) -> str:
 
 _pybind_name_rx = re.compile('[a-zA-Z0-9_]*')
 _pybind_arg_name_rx = re.compile('[*a-zA-Z0-9_]+')
-_pybind_type_rx = re.compile('[a-zA-Z0-9_.]+')
+_pybind_type_rx = re.compile('[a-zA-Z0-9_.:]+')
 
 def _pybind11_default_argument_length(string):
     """Returns length of balanced []()-expression at begin of input string until `,` or `)`"""
